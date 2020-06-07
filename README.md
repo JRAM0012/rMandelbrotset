@@ -1,2 +1,7 @@
 # rMandelbrotset
-mandelbrot set visualizer made in raylib
+A BAD Mandelbrot set visualizer made in raylib
+
+
+TODO:
+	learn shaders to make better visualiztion
+
