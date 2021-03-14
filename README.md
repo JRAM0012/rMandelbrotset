@@ -1,8 +1,9 @@
 # rMandelbrotset
-A BAD Mandelbrot set visualizer made in raylib
-used to learn both git, raylib, shader, c programming in general 
+A simple Mandelbrot set visualizer made in raylib
+added android support
+
 
 
 TODO:
-	learn shaders to make better visualiztion
+	learn shaders to make better visualiztion [done]
 
