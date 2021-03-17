@@ -63,9 +63,9 @@ ANDROID_BUILD_TOOLS     = $(ANDROID_HOME)/build-tools/29.0.3
 ANDROID_PLATFORM_TOOLS  = $(ANDROID_HOME)/platform-tools
 
 # Android project configuration variables
-PROJECT_NAME           ?= raylib_game
+PROJECT_NAME           ?= mandelbrotvisualizer
 PROJECT_LIBRARY_NAME   ?= main
-PROJECT_BUILD_PATH     ?= android.$(PROJECT_NAME)
+PROJECT_BUILD_PATH     ?= build.$(PROJECT_NAME)
 PROJECT_RESOURCES_PATH ?= res
 PROJECT_SOURCE_FILES   ?= mandelbrot.c
 
@@ -304,11 +304,11 @@ run:
 	$(ANDROID_PLATFORM_TOOLS)/adb shell am start -n  com.$(APP_COMPANY_NAME).$(APP_PRODUCT_NAME)/com.$(APP_COMPANY_NAME).$(APP_PRODUCT_NAME).NativeLoader
 
 uninstall:
-	$(ANDROID_PLATFORM_TOOLS)/adb uninstall com.raylib.rgame
+	$(ANDROID_PLATFORM_TOOLS)/adb uninstall com.$(APP_COMPANY_NAME).$(APP_PRODUCT_NAME)
 reinstall: clean all uninstall install 
 
 update: reinstall
-	$(ANDROID_PLATFORM_TOOLS)/adb shell am start -n com.raylib.rgame/com.raylib.rgame.NativeLoader
+	$(ANDROID_PLATFORM_TOOLS)/adb shell am start -n com.$(APP_COMPANY_NAME).$(APP_PRODUCT_NAME)/com.$(APP_COMPANY_NAME).$(APP_PRODUCT_NAME).NativeLoader
 
 
 

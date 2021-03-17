@@ -1,3 +1,5 @@
 *.exe
 *.apk
 *.o
+build.mandelbrotvisualizer/
+.vscode/

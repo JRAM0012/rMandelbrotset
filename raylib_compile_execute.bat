@@ -26,7 +26,7 @@ cmd /c if exist %NAMEPART%.exe del /F %NAMEPART%.exe
 :: -Wall     : Enable all compilation Warnings
 :: -mwindows : Compile a Windows executable, no cmd window
 rem gcc -o %NAMEPART%.exe %FILENAME% %RAYLIB_RES_FILE% -s -O2 -I%RAYLIB_INCLUDE_DIR% -I%RAYLIB_LIB_DIR% -lraylib -lopengl32 -lgdi32 -lwinmm -std=c99 -Wall -mwindows
-echo C:\raylib\mingw\bin\gcc.exe -o %NAMEPART%.exe %FILENAME% %RAYLIB_RES_FILE% -s -O2 -I%RAYLIB_INCLUDE_DIR% -I%RAYLIB_LIB_DIR% -lraylib -lopengl32 -lgdi32 -lwinmm -std=c99 -Wall -mwindows
+C:\raylib\mingw\bin\gcc.exe -o %NAMEPART%.exe %FILENAME% %RAYLIB_RES_FILE% -s -O2 -I%RAYLIB_INCLUDE_DIR% -I%RAYLIB_LIB_DIR% -lraylib -lopengl32 -lgdi32 -lwinmm -std=c99 -Wall -mwindows
 :: .
 :: > Executing program
 :: -------------------------
