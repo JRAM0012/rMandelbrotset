@@ -67,15 +67,15 @@ int main()
     float vec4_3 = 1.0f / 3.0f;
     float vec4_4 = 3.0f;
 
-    SetShaderValue(shader, resolutionLoc, res,      UNIFORM_VEC2);
-    SetShaderValue(shader, locationLoc,   location, UNIFORM_VEC2);
-    SetShaderValue(shader, zoomLoc,       (const void*)&zoom,     UNIFORM_FLOAT);
+    SetShaderValue(shader, resolutionLoc, res,                    SHADER_UNIFORM_VEC2);
+    SetShaderValue(shader, locationLoc,   location,               SHADER_UNIFORM_VEC2);
+    SetShaderValue(shader, zoomLoc,       (const void*)&zoom,     SHADER_UNIFORM_FLOAT);
 
-    SetShaderValue(shader,  vec4_1Loc, (const void*)&vec4_1,  UNIFORM_FLOAT);
-    SetShaderValue(shader,  vec4_2Loc, (const void*)&vec4_2,  UNIFORM_FLOAT);
-    SetShaderValue(shader,  vec4_3Loc, (const void*)&vec4_3,  UNIFORM_FLOAT);
-    SetShaderValue(shader,  vec4_4Loc, (const void*)&vec4_4,  UNIFORM_FLOAT);
-    SetShaderValue(shader, maxiterLoc, (const void*)&maxIter, UNIFORM_INT);
+    SetShaderValue(shader,  vec4_1Loc,    (const void*) &vec4_1,  SHADER_UNIFORM_FLOAT);
+    SetShaderValue(shader,  vec4_2Loc,    (const void*) &vec4_2,  SHADER_UNIFORM_FLOAT);
+    SetShaderValue(shader,  vec4_3Loc,    (const void*) &vec4_3,  SHADER_UNIFORM_FLOAT);
+    SetShaderValue(shader,  vec4_4Loc,    (const void*) &vec4_4,  SHADER_UNIFORM_FLOAT);
+    SetShaderValue(shader, maxiterLoc,    (const void*) &maxIter, SHADER_UNIFORM_INT);
 
     TexturedButton Button_UP, Button_DOWN, Button_LEFT,
                 Button_RIGHT, Button_ZOOM_IN, Button_ZOOM_OUT, 
@@ -143,14 +143,14 @@ int main()
         }
 
         EndDrawing();
-        SetShaderValue(shader, resolutionLoc, res,                      UNIFORM_VEC2);
-        SetShaderValue(shader, locationLoc,   location,                 UNIFORM_VEC2);
-        SetShaderValue(shader, zoomLoc,       (const void*)&zoom,       UNIFORM_FLOAT);
-        SetShaderValue(shader, vec4_1Loc,     (const void*)&vec4_1,     UNIFORM_FLOAT);
-        SetShaderValue(shader, vec4_2Loc,     (const void*)&vec4_2,     UNIFORM_FLOAT);
-        SetShaderValue(shader, vec4_3Loc,     (const void*)&vec4_3,     UNIFORM_FLOAT);
-        SetShaderValue(shader, vec4_4Loc,     (const void*)&vec4_4,     UNIFORM_FLOAT);
-        SetShaderValue(shader, maxiterLoc,    (const void*)&maxIter,    UNIFORM_INT);
+        SetShaderValue(shader, resolutionLoc, res,                      SHADER_UNIFORM_VEC2);
+        SetShaderValue(shader, locationLoc,   location,                 SHADER_UNIFORM_VEC2);
+        SetShaderValue(shader, zoomLoc,       (const void*)&zoom,       SHADER_UNIFORM_FLOAT);
+        SetShaderValue(shader, vec4_1Loc,     (const void*)&vec4_1,     SHADER_UNIFORM_FLOAT);
+        SetShaderValue(shader, vec4_2Loc,     (const void*)&vec4_2,     SHADER_UNIFORM_FLOAT);
+        SetShaderValue(shader, vec4_3Loc,     (const void*)&vec4_3,     SHADER_UNIFORM_FLOAT);
+        SetShaderValue(shader, vec4_4Loc,     (const void*)&vec4_4,     SHADER_UNIFORM_FLOAT);
+        SetShaderValue(shader, maxiterLoc,    (const void*)&maxIter,    SHADER_UNIFORM_INT);
         if(IsKeyPressed(KEY_BACK))
             break;
     }

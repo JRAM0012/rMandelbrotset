@@ -4,7 +4,7 @@
 :: .
 :: > Setup required Environment
 :: -------------------------------------
-set RAYLIB_INCLUDE_DIR=C:\raylib\raylib\src
+set RAYLIB_INCLUDE_DIR=-IC:\raylib\raylib\src -IC:\raylib\raylib\src\extras
 set RAYLIB_LIB_DIR=C:\raylib\raylib\src
 set RAYLIB_RES_FILE=C:\raylib\raylib\src\raylib.rc.data
 set COMPILER_DIR=C:\raylib\mingw\bin
@@ -26,7 +26,7 @@ cmd /c if exist %NAMEPART%.exe del /F %NAMEPART%.exe
 :: -Wall     : Enable all compilation Warnings
 :: -mwindows : Compile a Windows executable, no cmd window
 rem gcc -o %NAMEPART%.exe %FILENAME% %RAYLIB_RES_FILE% -s -O2 -I%RAYLIB_INCLUDE_DIR% -I%RAYLIB_LIB_DIR% -lraylib -lopengl32 -lgdi32 -lwinmm -std=c99 -Wall -mwindows
-C:\raylib\mingw\bin\gcc.exe -o %NAMEPART%.exe %FILENAME% %RAYLIB_RES_FILE% -s -O2 -I%RAYLIB_INCLUDE_DIR% -I%RAYLIB_LIB_DIR% -lraylib -lopengl32 -lgdi32 -lwinmm -std=c99 -Wall -mwindows
+gcc.exe -o %NAMEPART%.exe %FILENAME% %RAYLIB_RES_FILE% -s -O2 %RAYLIB_INCLUDE_DIR% -I%RAYLIB_LIB_DIR% -lraylib -lopengl32 -lgdi32 -lwinmm -std=c99 -Wall -mwindows
 :: .
 :: > Executing program
 :: -------------------------

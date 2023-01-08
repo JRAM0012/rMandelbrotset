@@ -29,12 +29,13 @@ RAYLIB_PATH            ?= C:\\raylib\\raylib
 # Starting in 2019 using ARM64 is mandatory for published apps,
 # Starting on August 2020, minimum required target API is Android 10 (API level 29)
 ANDROID_ARCH           ?= ARM64
-ANDROID_API_VERSION     = 29
+ANDROID_API_VERSION     = 33
 
 # Android required path variables
 # NOTE: Starting with Android NDK r21, no more toolchain generation is required, NDK is the toolchain on itself
 ifeq ($(OS),Windows_NT)
-    ANDROID_NDK = C:/android-ndk
+    ANDROID_NDK = C:/Users/jayar/AppData/Local/Android/Sdk/ndk/25.0.8775105
+    # ANDROID_NDK = C:/Users/jayar/AppData/Local/Android/Sdk/ndk/21.4.7075529
     ANDROID_TOOLCHAIN = $(ANDROID_NDK)/toolchains/llvm/prebuilt/windows-x86_64
 else
     ANDROID_NDK ?= /usr/lib/android/ndk
@@ -56,10 +57,10 @@ endif
 
 # Required path variables
 # NOTE: JAVA_HOME must be set to JDK (using OpenJDK 13)
-JAVA_HOME              ?= C:/open-jdk
-ANDROID_HOME            = C:/android-sdk-windows
-ANDROID_TOOLCHAIN       = C:/android-sdk-windows/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64
-ANDROID_BUILD_TOOLS     = $(ANDROID_HOME)/build-tools/29.0.3
+JAVA_HOME              ?= C:\PROGRA~1\Java\jdk-18
+ANDROID_HOME            = C:/Users/jayar/AppData/Local/Android/Sdk
+ANDROID_TOOLCHAIN       = $(ANDROID_NDK)/toolchains/llvm/prebuilt/windows-x86_64
+ANDROID_BUILD_TOOLS     = $(ANDROID_HOME)/build-tools/33.0.0
 ANDROID_PLATFORM_TOOLS  = $(ANDROID_HOME)/platform-tools
 
 # Android project configuration variables
@@ -105,7 +106,7 @@ ifeq ($(ANDROID_ARCH),ARM)
     AR = $(ANDROID_TOOLCHAIN)/bin/arm-linux-androideabi-ar
 endif
 ifeq ($(ANDROID_ARCH),ARM64)
-    CC = $(ANDROID_TOOLCHAIN)/bin/aarch64-linux-android$(ANDROID_API_VERSION)-clang
+    CC = $(ANDROID_TOOLCHAIN)/bin/clang.exe --target=aarch64-linux-android$(ANDROID_API_VERSION)
     AR = $(ANDROID_TOOLCHAIN)/bin/aarch64-linux-android-ar
 endif
 
@@ -114,7 +115,7 @@ ifeq ($(ANDROID_ARCH),ARM)
     CFLAGS = -std=c99 -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16
 endif
 ifeq ($(ANDROID_ARCH),ARM64)
-    CFLAGS = -std=c99 -target aarch64 -mfix-cortex-a53-835769
+    CFLAGS = -std=c99 -target aarch64 -mfix-cortex-a53-835769 -I$(ANDROID_NDK)/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android
 endif
 # Compilation functions attributes options
 CFLAGS += -ffunction-sections -funwind-tables -fstack-protector-strong -fPIC
@@ -124,7 +125,7 @@ CFLAGS += -Wall -Wa,--noexecstack -Wformat -Werror=format-security -no-canonical
 CFLAGS += -DANDROID -DPLATFORM_ANDROID -D__ANDROID_API__=$(ANDROID_API_VERSION)
 
 # Paths containing required header files
-INCLUDE_PATHS = -I. -I$(RAYLIB_PATH)/src -I$(RAYLIB_PATH)/src/external/android/native_app_glue
+INCLUDE_PATHS = -I. -I$(RAYLIB_PATH)/src -I$(RAYLIB_PATH)/src/extras -I$(RAYLIB_PATH)/src/external/android/native_app_glue
 
 # Linker options
 LDFLAGS = -Wl,-soname,lib$(PROJECT_LIBRARY_NAME).so -Wl,--exclude-libs,libatomic.a 
@@ -159,6 +160,7 @@ all: create_temp_project_dirs \
 
 # Create required temp directories for APK building
 create_temp_project_dirs:
+	cls
 	if not exist $(PROJECT_BUILD_PATH) mkdir $(PROJECT_BUILD_PATH) 
 	if not exist $(PROJECT_BUILD_PATH)\obj mkdir $(PROJECT_BUILD_PATH)\obj
 	if not exist $(PROJECT_BUILD_PATH)\src mkdir $(PROJECT_BUILD_PATH)\src
@@ -189,7 +191,7 @@ ifeq ($(RAYLIB_LIBTYPE),SHARED)
 	copy /Y $(RAYLIB_LIB_PATH)\libraylib.so $(PROJECT_BUILD_PATH)\lib\$(ANDROID_ARCH_NAME)\libraylib.so 
 endif
 ifeq ($(RAYLIB_LIBTYPE),STATIC)
-	copy /Y $(RAYLIB_LIB_PATH)\libraylib.a $(PROJECT_BUILD_PATH)\lib\$(ANDROID_ARCH_NAME)\libraylib.a 
+	copy /Y $(RAYLIB_LIB_PATH)\libraylib-androidx64.a $(PROJECT_BUILD_PATH)\lib\$(ANDROID_ARCH_NAME)\libraylib.a 
 endif
 
 # Copy project required resources: strings.xml, icon.png, assets
@@ -278,7 +280,7 @@ compile_project_class:
 # Compile .class files into Dalvik executable bytecode (.dex)
 # NOTE: Since Android 5.0, Dalvik interpreter (JIT) has been replaced by ART (AOT)
 compile_project_class_dex:
-	$(ANDROID_BUILD_TOOLS)/dx --dex --output=$(PROJECT_BUILD_PATH)/bin/classes.dex $(PROJECT_BUILD_PATH)/obj
+	$(ANDROID_BUILD_TOOLS)/d8 --dex --output=$(PROJECT_BUILD_PATH)/bin/classes.dex $(PROJECT_BUILD_PATH)/obj
 
 # Create Android APK package: bin/$(PROJECT_NAME).unsigned.apk
 # NOTE: Requires compiled classes.dex and lib$(PROJECT_LIBRARY_NAME).so
