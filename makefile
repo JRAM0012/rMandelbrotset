@@ -144,7 +144,23 @@ OBJS = $(patsubst %.c, $(PROJECT_BUILD_PATH)/obj/%.o, $(PROJECT_SOURCE_FILES))
 
 # Android APK building process... some steps required...
 # NOTE: typing 'make' will invoke the default target entry called 'all',
-all: create_temp_project_dirs \
+
+DESKTOPGCC=gcc
+DESKTOP_INCLUDE_PATHS = -I$(RAYLIB_PATH)\src
+DESKTOP_LDFLAGS = -L$(RAYLIB_PATH)\src -lraylib -lgdi32 -lwinmm
+
+all: desktop 
+# android
+
+desktop: mandelbrot.exe
+
+mandelbrot.exe: mandelbrot.o
+	$(DESKTOPGCC) $^ -o $@ $(DESKTOP_INCLUDE_PATHS) $(DESKTOP_CFLAGS) $(DESKTOP_LDFLAGS)
+
+mandelbrot.o: mandelbrot.c
+	$(DESKTOPGCC) -c $^ -o $@ $(DESKTOP_INCLUDE_PATHS) $(DESKTOP_CFLAGS)
+
+android: create_temp_project_dirs \
      copy_project_required_libs \
      copy_project_resources \
      generate_loader_script \
@@ -160,7 +176,7 @@ all: create_temp_project_dirs \
 
 # Create required temp directories for APK building
 create_temp_project_dirs:
-	cls
+	clear
 	if not exist $(PROJECT_BUILD_PATH) mkdir $(PROJECT_BUILD_PATH) 
 	if not exist $(PROJECT_BUILD_PATH)\obj mkdir $(PROJECT_BUILD_PATH)\obj
 	if not exist $(PROJECT_BUILD_PATH)\src mkdir $(PROJECT_BUILD_PATH)\src

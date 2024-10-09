@@ -113,22 +113,24 @@ int main()
             DrawTexture(target.texture, 0, 0, WHITE);
         EndShaderMode();
 
-        maxIter = (int) GuiSliderBar((Rectangle) {GUISLIDERX, GUISLIDERY * 0, 330, GUISLIDERSDISTANCE}, TextFormat("MaxIter: %d", maxIter), NULL, maxIter, 20, 2200);
-        vec4_1  =       GuiSliderBar((Rectangle) {GUISLIDERX, GUISLIDERY * 2, 330, GUISLIDERSDISTANCE}, TextFormat( "vec4_1: %f", vec4_1), NULL,   vec4_1, 0.0f, 5.0f);
-        vec4_2  =       GuiSliderBar((Rectangle) {GUISLIDERX, GUISLIDERY * 4, 330, GUISLIDERSDISTANCE}, TextFormat( "vec4_2: %f", vec4_2), NULL,   vec4_2, 0.0f, 5.0f);
-        vec4_3  =       GuiSliderBar((Rectangle) {GUISLIDERX, GUISLIDERY * 6, 330, GUISLIDERSDISTANCE}, TextFormat( "vec4_3: %f", vec4_3), NULL,   vec4_3, 0.0f, 5.0f);
-        vec4_4  =       GuiSliderBar((Rectangle) {GUISLIDERX, GUISLIDERY * 8, 330, GUISLIDERSDISTANCE}, TextFormat( "vec4_4: %f", vec4_4), NULL,   vec4_4, 0.0f, 5.0f);
+        float fmaxiter = (float) maxIter;
+        GuiSliderBar((Rectangle) {GUISLIDERX, GUISLIDERY * 0, 330, GUISLIDERSDISTANCE}, TextFormat("MaxIter: %d", maxIter), NULL, &fmaxiter, 20, 2200);
+        GuiSliderBar((Rectangle) {GUISLIDERX, GUISLIDERY * 2, 330, GUISLIDERSDISTANCE}, TextFormat( "vec4_1: %f", vec4_1), NULL,   &vec4_1, 0.0f, 5.0f);
+        GuiSliderBar((Rectangle) {GUISLIDERX, GUISLIDERY * 4, 330, GUISLIDERSDISTANCE}, TextFormat( "vec4_2: %f", vec4_2), NULL,   &vec4_2, 0.0f, 5.0f);
+        GuiSliderBar((Rectangle) {GUISLIDERX, GUISLIDERY * 6, 330, GUISLIDERSDISTANCE}, TextFormat( "vec4_3: %f", vec4_3), NULL,   &vec4_3, 0.0f, 5.0f);
+        GuiSliderBar((Rectangle) {GUISLIDERX, GUISLIDERY * 8, 330, GUISLIDERSDISTANCE}, TextFormat( "vec4_4: %f", vec4_4), NULL,   &vec4_4, 0.0f, 5.0f);
+        maxIter = (int) fmaxiter;
 
         DrawText(TextFormat("maxiter: %d, zoom: %f", maxIter, zoom), 12, 12, 10,  RED);
         DrawText(TextFormat("maxiter: %d, zoom: %f", maxIter, zoom), 12, 22, 10 , BLUE);
         DrawText(TextFormat("maxiter: %d, zoom: %f", maxIter, zoom), 12, 32, 10 , WHITE);
         
-        if(IsKeyDown(KEY_UP)    || ImageButton(&Button_UP))       location[1] -= zoom * 0.05f;
-        if(IsKeyDown(KEY_DOWN)  || ImageButton(&Button_DOWN))     location[1] += zoom * 0.05f;
-        if(IsKeyDown(KEY_RIGHT) || ImageButton(&Button_RIGHT))    location[0] -= zoom * 0.05f;
-        if(IsKeyDown(KEY_LEFT)  || ImageButton(&Button_LEFT))     location[0] += zoom * 0.05f;
-        if(IsKeyDown(KEY_S)     || ImageButton(&Button_ZOOM_IN))  zoom += zoom * 0.01f;
-        if(IsKeyDown(KEY_W)     || ImageButton(&Button_ZOOM_OUT)) zoom -= zoom * 0.01f;
+        if(IsKeyDown(KEY_W) || ImageButton(&Button_UP))       location[1] -= zoom * 0.05f;
+        if(IsKeyDown(KEY_S) || ImageButton(&Button_DOWN))     location[1] += zoom * 0.05f;
+        if(IsKeyDown(KEY_D) || ImageButton(&Button_RIGHT))    location[0] -= zoom * 0.05f;
+        if(IsKeyDown(KEY_A) || ImageButton(&Button_LEFT))     location[0] += zoom * 0.05f;
+        if(IsKeyDown(KEY_Q) || IsKeyDown(KEY_UP)  || ImageButton(&Button_ZOOM_IN))  zoom += zoom * 0.01f;
+        if(IsKeyDown(KEY_E) || IsKeyDown(KEY_DOWN) || ImageButton(&Button_ZOOM_OUT)) zoom -= zoom * 0.01f;
 
         if(IsKeyDown(KEY_R) || ImageButton(&Button_RESET))
         {
